@@ -1,15 +1,18 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
-from .forms import LoginForm,SignupForm
+from .forms import LoginForm,SignupForm,ModifyEmail
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 
 # Create your views here.
 
-@login_required(redirect_field_name='login')
 def Index(request):
+    if not request.user.is_authenticated:
+        return render(request, 'login.html')
+
     return render(request, 'index.html')
 
 def Login(request):
@@ -36,7 +39,7 @@ def Login(request):
 
 def Signup(request):
     #print(request.__dict__)
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         return render(request, 'index.html')
 
     form = SignupForm(request.POST or None)
@@ -54,9 +57,23 @@ def Signup(request):
 
 def Logout(request):
     logout(request)
-    return redirect(reverse(connexion))
+    return redirect(reverse(Login))
 
 
 @login_required(redirect_field_name='login')
 def Profile(request):
     return render(request, 'profile.html')
+
+
+def Modify(request):
+    form = ModifyEmail(request.POST or None)
+    print(request.user.username)
+    model = User.objects.get(username=request.user.username)
+    if form.is_valid():
+        model.email = form.cleaned_data['email']
+        model.save()
+        response_data = {"email": model.email}
+        return JsonResponse(response_data, status=201)
+
+    return JsonResponse(status=404)
+

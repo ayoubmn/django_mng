@@ -11,3 +11,6 @@ class SignupForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput)
     class Meta:
         model = User
+
+class ModifyEmail(forms.Form):
+    email = forms.EmailField(required=True)

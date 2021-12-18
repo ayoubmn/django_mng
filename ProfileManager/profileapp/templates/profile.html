@@ -13,11 +13,10 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="static/css/profile.css">
-
 </head>
 <body>
     <nav class="mb-1 navbar navbar-expand-lg navbar-dark info-color" style="background-color: brown;">
-      <a class="navbar-brand" href="#">Home</a>
+      <a class="navbar-brand" href="/">Home</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-4"
         aria-controls="navbarSupportedContent-4" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -37,22 +36,56 @@
       </div>
     </nav>
 
-<div class="container mt-5">
-    <div class="row d-flex justify-content-center">
-        <div class="col-md-7">
-            <div class="card p-3 py-4">
-                <div class="text-center"> <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Circle-icons-profile.svg/1024px-Circle-icons-profile.svg.png" width="100" class="rounded-circle"> </div>
-                <div class="text-center mt-3"> <span class="bg-secondary p-1 px-4 rounded text-white">User</span>
-                    <h5 class="mt-2 mb-0">{{ user.username }}</h5> <span>{{user.email}}</span>
-                    <div class="px-4 mt-1">
-                        <p class="fonts">Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+    <div class="container mt-5">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-7">
+                <div class="card p-3 py-4">
+                    <div class="text-center"> <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Circle-icons-profile.svg/1024px-Circle-icons-profile.svg.png" width="100" class="rounded-circle"> </div>
+                    <div class="text-center mt-3"> <span class="bg-secondary p-1 px-4 rounded text-white">User</span>
+                        <h5 class="mt-2 mb-0">{{ user.username }}</h5> <span id="emailSpan">{{user.email}}</span>
+                        <div class="px-4 mt-1">
+                            <p class="fonts">Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+                        </div>
+                        <div class="buttons">
+                            <button class="btn btn-outline-primary px-4" data-toggle="modal" data-target="#modifyModal">Modify</button>
+                            <a href="logout" style="text-decoration:none;">
+                                <button class="btn btn-primary px-4 ms-3">Logout</button>
+                            </a>
+                            <!-- *************************  -->
+                            <div class="modal fade" id="modifyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                              <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Change your information</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                  </div>
+                                  <div class="modal-body">
+                                    <form name="emailmodif" id="emailmodif" >
+                                      {% csrf_token %}
+                                      <fieldset>
+                                        <div class="input-box">
+                                            <label for="email" id="name_label">Email</label>
+                                            <input type="email" name="email" id="email" minlength="3" placeholder={{user.email}} class="text-input" required/>
+                                        </div>
+                                        <br>
+                                        <button type="button" id="CloseModal" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <input type="submit" name="submit" class="btn btn-primary" id="submit_btn" value="Save changes" />
+                                      </fieldset>
+                                    </form>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <!-- ****************************  -->
+                        </div>
                     </div>
-                    <div class="buttons"> <button class="btn btn-outline-primary px-4">Modify</button> <button class="btn btn-primary px-4 ms-3" onclick="logout">Logout</button> </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+<script src="static/js/profile.js"></script>
 </body>
 </html>
 {% endblock %}

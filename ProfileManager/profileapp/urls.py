@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include, re_path
 from django.conf.urls.static import static
 from django.conf import settings
-from .views import Index,Login,Signup,Logout,Profile
+from .views import Index, Login, Signup, Logout, Profile, Modify
 
 urlpatterns = [
     path(r'admin/', admin.site.urls),
@@ -26,6 +26,8 @@ urlpatterns = [
     path(r'signup', Signup, name="signup"),
     path(r'logout', Logout, name="logout"),
     path(r'profile', Profile, name="profile"),
+
+    path(r'modify', Modify, name="modify"),
 
 ]
 
